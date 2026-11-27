@@ -2,7 +2,7 @@ from .i18n import T
 from datetime import datetime
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QKeySequence, QShortcut
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QMessageBox, QScrollArea, QSizePolicy, QWidget
 from qfluentwidgets import FluentIcon as FIF, FluentWindow, NavigationItemPosition, Theme, isDarkTheme, setTheme, setThemeColor
 from .dashboard import Dashboard
 from .lists import CustomersPage, HistoryPage, ProductsPage
@@ -16,6 +16,21 @@ NAV = [("dashboard", T("ড্যাশবোর্ড"), "HOME", Dashboard), ("
        ("reports", T("রিপোর্ট"), "PIE_SINGLE", ReportsPage), ("settings", T("সেটিংস ও ব্যাকআপ"), "SETTING", SettingsPage)]
 
 
+class PageHost(QScrollArea):
+    """Vertical scrolling + centred content with a max width, so pages never get squashed or stretched edge to edge."""
+    def __init__(self, inner, max_width=1180):
+        super().__init__(); self.inner = inner
+        self.setWidgetResizable(True); self.setFrameShape(QFrame.NoFrame)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setStyleSheet("QScrollArea{background:transparent;border:none} #pageContainer{background:transparent}")
+        box = QWidget(); box.setObjectName("pageContainer"); h = QHBoxLayout(box); h.setContentsMargins(0, 0, 0, 0)
+        inner.setMaximumWidth(max_width); inner.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        h.addStretch(1); h.addWidget(inner, 100); h.addStretch(1); self.setWidget(box)
+
+    def refresh(self):
+        if hasattr(self.inner, "refresh"): self.inner.refresh()
+
+
 class MainWindow(FluentWindow):
     def __init__(self, app):
         super().__init__(); self.app = app; app.window = self
@@ -24,13 +39,16 @@ class MainWindow(FluentWindow):
         self.navigationInterface.setExpandWidth(250)
         self.pages = {}
         for i, (key, label, icon, cls) in enumerate(NAV):
-            p = cls(app); p.setObjectName("page_" + key); p.layout().setContentsMargins(28, 18, 28, 18)
+            inner = cls(app); inner.layout().setContentsMargins(28, 18, 28, 24)
+            p = PageHost(inner); p.setObjectName("page_" + key)
             self.pages[key] = p; self.addSubInterface(p, getattr(FIF, icon, FIF.HOME), label)
             QShortcut(QKeySequence(f"Ctrl+{i+1}"), self, activated=lambda k=key: self.open(k))
         self.navigationInterface.addItem("theme", getattr(FIF, "CONSTRACT", FIF.SETTING), T("ডার্ক / লাইট থিম"), onClick=self.toggle_theme, selectable=False, position=NavigationItemPosition.BOTTOM)
         self.navigationInterface.addItem("about", FIF.INFO, T("সম্পর্কে"), onClick=self.about, selectable=False, position=NavigationItemPosition.BOTTOM)
         self.stackedWidget.currentChanged.connect(lambda _=0: self.refresh_current())
         self.open("dashboard")
+        try: self.navigationInterface.panel.expand(useAni=False)  # show icon + text in the sidebar
+        except Exception: pass
 
     def open(self, key, *_):
         self.switchTo(self.pages.get(key, self.pages["memo"]))

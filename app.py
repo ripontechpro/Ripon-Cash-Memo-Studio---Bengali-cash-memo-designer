@@ -69,7 +69,9 @@ def main():
     qa.setWindowIcon(QIcon(str(ROOT / "assets" / "app.ico")))
     if not widgets.FLUENT: qa.setStyleSheet(QSS)
     from PySide6.QtGui import QFont
-    f = QFont(); f.setFamilies(([pf["ui_font"]] if pf["ui_font"] else []) + ["Noto Sans Bengali", "Nirmala UI", "Segoe UI", "Kalpurush", "SolaimanLipi"]); f.setPointSize(11); qa.setFont(f)
+    f = QFont(); f.setFamilies(([pf["ui_font"]] if pf["ui_font"] else []) + ["Noto Sans Bengali", "Nirmala UI", "Segoe UI", "Kalpurush", "SolaimanLipi"]); f.setPixelSize(15); qa.setFont(f)
+    if widgets.FLUENT:
+        from ui import fontfix; fontfix.install(qa)
     if pf["ui_font"] and not widgets.FLUENT: qa.setStyleSheet(QSS + "* { font-family: '%s'; }" % pf["ui_font"])
     fonts = ROOT / "assets" / "fonts"
     if fonts.exists(): qt_backend.load_fonts(fonts)
