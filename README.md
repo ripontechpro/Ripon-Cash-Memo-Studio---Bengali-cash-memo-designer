@@ -26,4 +26,3 @@ The UI uses **PySide6-Fluent-Widgets** (modern Windows-11 Fluent look, dark/ligh
 `templates_lib/bn_presets.py` generates 18 ready-made Bengali templates (computer/electronics, repair, mobile, grocery, pharmacy, hardware, electrical, cloth,
 stationery, wholesale, retail, photocopy/photo studio, A6 mini slips, gift shop, sweets/bakery, VAT invoice, money receipt). They are installed on first run and
 take shop name/address/phone from Settings (defaults: Ripon Computer, ভাদ্দা বাজার, নাগরপুর, টাঙ্গাইল, 01903888515).
-# Ripon-Cash-Memo-Studio---Bengali-cash-memo-designer

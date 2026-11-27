@@ -13,7 +13,7 @@ SetupIconFile=assets\app.ico
 
 [Files]
 ; app icon is bundled via assets\app.ico
-Source: "dist\RiponCashMemoStudio\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
+Source: "dist\RiponCashMemoStudio.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\Ripon Cash Memo Studio"; Filename: "{app}\RiponCashMemoStudio.exe"

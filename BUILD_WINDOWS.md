@@ -1,7 +1,7 @@
 # EXE বানানোর সহজ উপায় (Windows)
-**উপায় ১ (নিজের পিসিতে):** Python 3.11 (64-bit, "Add to PATH" টিক দিয়ে) ইনস্টল করুন -> প্রজেক্ট ফোল্ডারে `build_exe.bat` ডাবল ক্লিক করুন -> শেষে `dist\RiponCashMemoStudio\RiponCashMemoStudio.exe` (Inno Setup 6 থাকলে `Output\RiponCashMemoStudio_Setup.exe` ও হবে)।
+**উপায় ১ (নিজের পিসিতে):** Python 3.11 (64-bit, "Add to PATH" টিক দিয়ে) ইনস্টল করুন -> প্রজেক্ট ফোল্ডারে `build_exe.bat` ডাবল ক্লিক করুন -> শেষে একটাই ফাইল: `dist\RiponCashMemoStudio.exe` (Inno Setup 6 থাকলে `Output\RiponCashMemoStudio_Setup.exe` ও হবে)।
 **উপায় ২ (পিসি ছাড়া, ফ্রি):** প্রজেক্টটা GitHub repo-তে আপলোড করুন -> Actions -> "Build Windows EXE" -> Run workflow -> শেষে Artifacts থেকে EXE ও Setup ডাউনলোড করুন (`.github/workflows/build-windows.yml`)।
-EXE ফোল্ডারটা (শুধু .exe নয়, পুরো ফোল্ডার) অন্য পিসিতে কপি করলেই চলবে; Python লাগবে না।
+এই একটা .exe ফাইল অন্য পিসিতে কপি করলেই চলবে; Python লাগবে না। (প্রথমবার খুলতে ২-৫ সেকেন্ড বেশি লাগে; কিছু অ্যান্টিভাইরাস নতুন EXE-কে ভুল করে সন্দেহ করতে পারে।)
 
 ---
 # Build on Windows 10/11

@@ -1,0 +1,36 @@
+name: Build Windows EXE
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Run tests
+        run: python -m unittest discover -s tests -t .
+        continue-on-error: true
+      - name: Build one-file EXE
+        run: pyinstaller --noconfirm --clean cash_memo_studio.spec
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: RiponCashMemoStudio-exe
+          path: dist/RiponCashMemoStudio.exe
+      - name: Build installer (optional)
+        continue-on-error: true
+        run: |
+          choco install innosetup -y --no-progress
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+      - name: Upload installer (optional)
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: RiponCashMemoStudio-Setup
+          path: Output/RiponCashMemoStudio_Setup.exe
