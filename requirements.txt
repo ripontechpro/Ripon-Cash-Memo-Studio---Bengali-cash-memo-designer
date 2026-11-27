@@ -1,0 +1,6 @@
+PySide6>=6.6
+PySide6-Fluent-Widgets>=1.5   # modern Fluent UI. GPLv3 for non-commercial use; a commercial licence is needed to SELL the app (app falls back to plain Qt if not installed)
+reportlab>=4.0
+Pillow>=10.0
+openpyxl>=3.1
+pyinstaller>=6.0
